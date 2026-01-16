@@ -1,0 +1,180 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #f6f5f1;
+    color: #333;
+    direction: rtl;
+    padding: 20px;
+}
+
+/* Restaurants List */
+.restaurants-list {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.restaurant-card {
+    background: white;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.restaurant-card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+}
+
+.restaurant-image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.restaurant-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.exclusive-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #ff4444;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.75em;
+    font-weight: 600;
+}
+
+.expand-btn {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    font-size: 1.2em;
+}
+
+.restaurant-info {
+    padding: 15px;
+}
+
+.restaurant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.restaurant-name {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #333;
+}
+
+.favorite-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #ff4444;
+    padding: 5px;
+}
+
+.restaurant-category {
+    font-size: 0.85em;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.featured-dish {
+    background: #fff5f5;
+    color: #ff4444;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.85em;
+    display: inline-block;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.restaurant-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.85em;
+    color: #666;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.detail-item i {
+    color: #666;
+    font-size: 1em;
+}
+
+/* Language Selector */
+.language-selector {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 100;
+}
+
+.language-btn {
+    background: #9d8577;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+}
+
+.language-btn:hover {
+    background: #8f7464;
+    transform: scale(1.05);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* LTR Support */
+body[dir="ltr"] {
+    direction: ltr;
+}
+
+body[dir="ltr"] .language-selector {
+    left: auto;
+    right: 20px;
+}
