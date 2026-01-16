@@ -52,8 +52,8 @@
     <div class="language-selector">
         <button class="language-btn" onclick="toggleLanguage()">
             <i class="fa fa-globe" id="langIcon"></i>
-            <span id="langText" lang="ar">العربية</span>
-            <span id="langTextEn" lang="en" class="hidden">English</span>
+            <span id="langText" lang="ar" class="hidden">English</span>
+            <span id="langTextEn" lang="en">العربية</span>
         </button>
     </div>
 
@@ -67,13 +67,15 @@
             document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
 
-            // Update language button
+            // Update language button - show the language we can switch TO
             const langText = document.getElementById('langText');
             const langTextEn = document.getElementById('langTextEn');
             if (lang === 'ar') {
+                // Current language is Arabic, show English button
                 langText.classList.remove('hidden');
                 langTextEn.classList.add('hidden');
             } else {
+                // Current language is English, show Arabic button
                 langText.classList.add('hidden');
                 langTextEn.classList.remove('hidden');
             }
