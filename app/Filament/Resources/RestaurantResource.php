@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -70,6 +71,40 @@ class RestaurantResource extends Resource
                     ->imageEditor()
                     ->disk('public')
                     ->directory('restaurants'),
+                Section::make('بيانات SEO')
+                    ->description('إضافة كلمات مفتاحية ووصف للمطعم لتحسين محركات البحث')
+                    ->schema([
+                        Section::make('البيانات العربية - SEO')
+                            ->schema([
+                                Textarea::make('description_ar')
+                                    ->label('وصف المطعم (عربي)')
+                                    ->rows(4)
+                                    ->maxLength(500)
+                                    ->helperText('وصف مختصر عن المطعم (حد أقصى 500 حرف)')
+                                    ->columnSpanFull(),
+                                Textarea::make('keywords_ar')
+                                    ->label('الكلمات المفتاحية (عربي)')
+                                    ->rows(3)
+                                    ->maxLength(255)
+                                    ->helperText('أدخل الكلمات المفتاحية مفصولة بفواصل (مثال: مطعم، أردني، منسف، توصيل)')
+                                    ->columnSpanFull(),
+                            ]),
+                        Section::make('English Data - SEO')
+                            ->schema([
+                                Textarea::make('description_en')
+                                    ->label('Restaurant Description (EN)')
+                                    ->rows(4)
+                                    ->maxLength(500)
+                                    ->helperText('Brief description about the restaurant (max 500 characters)')
+                                    ->columnSpanFull(),
+                                Textarea::make('keywords_en')
+                                    ->label('Keywords (EN)')
+                                    ->rows(3)
+                                    ->maxLength(255)
+                                    ->helperText('Enter keywords separated by commas (e.g., restaurant, jordanian, mansaf, delivery)')
+                                    ->columnSpanFull(),
+                            ]),
+                    ]),
             ]);
     }
 

@@ -19,6 +19,10 @@ class Restaurant extends Model
         'working_hours_ar',
         'working_hours_en',
         'image_path',
+        'keywords_ar',
+        'keywords_en',
+        'description_ar',
+        'description_en',
     ];
 
     public function dishes(): HasMany

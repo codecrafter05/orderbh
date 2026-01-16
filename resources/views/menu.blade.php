@@ -1,9 +1,159 @@
+@php
+    // تحديد المطعم للـ SEO
+    $seoRestaurant = $selectedRestaurant ?? $restaurants->first();
+    $siteUrl = config('app.url', 'https://orderbh.site');
+    $currentUrl = $siteUrl . request()->getPathInfo();
+    
+    // بيانات المطعم للـ SEO
+    $restaurantName = $seoRestaurant ? ($seoRestaurant->name_ar . ' - ' . $seoRestaurant->name_en) : 'القائمة - Menu';
+    
+    // استخدام الوصف من قاعدة البيانات أو إنشاء وصف تلقائي
+    if ($seoRestaurant) {
+        // استخدام الوصف المخصص إذا كان موجوداً
+        if (!empty($seoRestaurant->description_ar) || !empty($seoRestaurant->description_en)) {
+            $restaurantDescription = $seoRestaurant->description_ar ?? $seoRestaurant->description_en;
+        } else {
+            // إنشاء وصف تلقائي
+            $descriptionParts = [];
+            $descriptionParts[] = $seoRestaurant->type_ar . ' - ' . $seoRestaurant->type_en;
+            if ($seoRestaurant->dishes->count() > 0) {
+                $descriptionParts[] = 'متوفر ' . $seoRestaurant->dishes->count() . ' طبق للطلب';
+            }
+            $descriptionParts[] = 'وقت التوصيل: ' . $seoRestaurant->delivery_time_ar;
+            $restaurantDescription = implode('. ', $descriptionParts);
+        }
+    } else {
+        $restaurantDescription = 'اطلب من أفضل المطاعم في البحرين - توصيل سريع وطازج';
+    }
+    
+    // استخدام الكلمات المفتاحية من قاعدة البيانات أو إنشاء كلمات مفتاحية تلقائية
+    if ($seoRestaurant) {
+        if (!empty($seoRestaurant->keywords_ar) || !empty($seoRestaurant->keywords_en)) {
+            $restaurantKeywords = $seoRestaurant->keywords_ar ?? $seoRestaurant->keywords_en;
+        } else {
+            // كلمات مفتاحية تلقائية
+            $restaurantKeywords = $seoRestaurant->name_ar . ', ' . $seoRestaurant->name_en . ', ' . 
+                                  $seoRestaurant->type_ar . ', ' . $seoRestaurant->type_en . ', مطاعم البحرين, طلب طعام, توصيل طعام';
+        }
+    } else {
+        $restaurantKeywords = 'مطاعم البحرين, طلب طعام, توصيل طعام';
+    }
+    
+    $restaurantImage = $seoRestaurant && $seoRestaurant->image_path 
+        ? $siteUrl . Storage::url($seoRestaurant->image_path) 
+        : $siteUrl . '/images/default-restaurant.jpg';
+    
+    // تنظيف الوصف والكلمات المفتاحية
+    $restaurantDescription = strip_tags($restaurantDescription);
+    $restaurantDescription = mb_substr($restaurantDescription, 0, 160);
+    $restaurantKeywords = strip_tags($restaurantKeywords);
+@endphp
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>القائمة - Menu</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>{{ $restaurantName }}</title>
+    <meta name="title" content="{{ $restaurantName }}">
+    <meta name="description" content="{{ $restaurantDescription }}">
+    <meta name="keywords" content="{{ $restaurantKeywords }}">
+    <meta name="author" content="OrderBH">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ $currentUrl }}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $restaurantName }}">
+    <meta property="og:description" content="{{ $restaurantDescription }}">
+    <meta property="og:image" content="{{ $restaurantImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="ar_BH">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:site_name" content="OrderBH">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $currentUrl }}">
+    <meta name="twitter:title" content="{{ $restaurantName }}">
+    <meta name="twitter:description" content="{{ $restaurantDescription }}">
+    <meta name="twitter:image" content="{{ $restaurantImage }}">
+    
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Structured Data (JSON-LD) -->
+    @if($seoRestaurant)
+    <script type="application/ld+json">
+    @php
+        $menuItems = [];
+        foreach($seoRestaurant->dishes->take(10) as $dish) {
+            $dishData = [
+                "@type" => "MenuItem",
+                "name" => $dish->name_en,
+                "alternateName" => $dish->name_ar
+            ];
+            
+            if (!empty($dish->description_en) || !empty($dish->description_ar)) {
+                $dishData["description"] = strip_tags($dish->description_en ?? $dish->description_ar ?? '');
+            }
+            
+            if ($dish->image_path) {
+                $dishImageUrl = Storage::url($dish->image_path);
+                $dishData["image"] = $siteUrl . $dishImageUrl;
+            }
+            
+            if (!empty($dish->prices) && is_array($dish->prices)) {
+                $firstPrice = is_array($dish->prices[0]) ? ($dish->prices[0]['price'] ?? null) : ($dish->prices[0] ?? null);
+                if ($firstPrice !== null) {
+                    $dishData["offers"] = [
+                        "@type" => "Offer",
+                        "price" => (string)$firstPrice,
+                        "priceCurrency" => "BHD"
+                    ];
+                }
+            }
+            
+            $menuItems[] = $dishData;
+        }
+        
+        $structuredData = [
+            "@context" => "https://schema.org",
+            "@type" => "Restaurant",
+            "name" => $seoRestaurant->name_en,
+            "alternateName" => $seoRestaurant->name_ar,
+            "description" => $restaurantDescription,
+            "image" => $restaurantImage,
+            "url" => $currentUrl,
+            "servesCuisine" => $seoRestaurant->type_en,
+            "address" => [
+                "@type" => "PostalAddress",
+                "addressCountry" => "BH",
+                "addressLocality" => "Bahrain"
+            ],
+            "menu" => $currentUrl
+        ];
+        
+        if (count($menuItems) > 0) {
+            $structuredData["hasMenu"] = [
+                "@type" => "Menu",
+                "hasMenuSection" => [
+                    "@type" => "MenuSection",
+                    "name" => "Main Menu",
+                    "hasMenuItem" => $menuItems
+                ]
+            ];
+        }
+    @endphp
+    {!! json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+    </script>
+    @endif
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/menu.css') }}">
 </head>
