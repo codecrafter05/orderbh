@@ -46,7 +46,7 @@
                 @php
                     $categoryImage = $category->image_path
                         ? Storage::url($category->image_path)
-                        : 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=300&fit=crop';
+                        : 'https://www.zohooralshafa.site/storage/products/images/01K3P2F8H6ZPWJ9MA0BY3BX18K.jpg';
                 @endphp
                 <div class="category-item" data-category="{{ $category->id }}" data-title-ar="{{ $category->name_ar }}" data-title-en="{{ $category->name_en }}" onclick="filterCategory('{{ $category->id }}')">
                     <img src="{{ $categoryImage }}" alt="{{ $category->name_ar }}" class="category-image" onerror="this.src='https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=300&fit=crop'">
@@ -85,7 +85,7 @@
                 @php
                     $dishImage = $dish->image_path
                         ? Storage::url($dish->image_path)
-                        : 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=400&h=300&fit=crop';
+                        : 'https://www.zohooralshafa.site/storage/products/images/01K3P2F8H6ZPWJ9MA0BY3BX18K.jpg';
                     $priceOptions = is_array($dish->prices) ? $dish->prices : [];
                     $firstPrice = !empty($priceOptions) && isset($priceOptions[0]['price']) ? (float) $priceOptions[0]['price'] : 0;
                 @endphp

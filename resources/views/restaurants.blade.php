@@ -11,7 +11,10 @@
     <!-- Restaurants List -->
     <div class="restaurants-list">
         @foreach ($restaurants as $restaurant)
-            <div class="restaurant-card" onclick="goToMenu('{{ $restaurant->id }}')">
+            @php
+                $slug = \Illuminate\Support\Str::slug($restaurant->name_en);
+            @endphp
+            <div class="restaurant-card" onclick="goToMenu('{{ $slug }}')">
                 <div class="restaurant-image-container">
                     <img src="{{ $restaurant->image_path ? Storage::url($restaurant->image_path) : 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop' }}"
                          alt="{{ $restaurant->name_ar }}"
@@ -95,9 +98,8 @@
             switchLanguage(newLang);
         }
 
-        function goToMenu(restaurant) {
-            localStorage.setItem('selectedRestaurant', restaurant);
-            window.location.href = '{{ route('menu.index') }}';
+        function goToMenu(slug) {
+            window.location.href = '/menu/' + slug;
         }
 
         // Initialize

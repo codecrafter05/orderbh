@@ -7,5 +7,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [RestaurantController::class, 'index'])->name('restaurants.index');
 Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
+Route::get('/menu/{slug}', [MenuController::class, 'show'])->name('menu.show');
 Route::get('/zohoor', [ZohoorController::class, 'index'])->name('zohoor.index');
 Route::view('/cart', 'cart')->name('cart.index');

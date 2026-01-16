@@ -53,7 +53,7 @@
                             @php
                                 $dishImage = $dish->image_path
                                     ? Storage::url($dish->image_path)
-                                    : 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=400&h=300&fit=crop';
+                                    : 'https://www.zohooralshafa.site/storage/products/images/01K3P2F8H6ZPWJ9MA0BY3BX18K.jpg';
                                 $priceOptions = is_array($dish->prices) ? $dish->prices : [];
                             @endphp
                             <div class="dish-card">
@@ -257,11 +257,14 @@
 
         // Show selected restaurant
         function showRestaurant() {
-            const defaultRestaurantId = {{ json_encode(optional($restaurants->first())->id) }};
-            const selectedRestaurant = localStorage.getItem('selectedRestaurant') || (defaultRestaurantId ? String(defaultRestaurantId) : null);
+            @if(isset($selectedRestaurant))
+                const selectedRestaurantId = {{ $selectedRestaurant->id }};
+            @else
+                const selectedRestaurantId = {{ json_encode(optional($restaurants->first())->id) }};
+            @endif
 
             document.querySelectorAll('.restaurant-content').forEach(restaurant => {
-                if (selectedRestaurant && restaurant.getAttribute('data-restaurant') === selectedRestaurant) {
+                if (selectedRestaurantId && restaurant.getAttribute('data-restaurant') == selectedRestaurantId) {
                     restaurant.classList.remove('hidden');
                 } else {
                     restaurant.classList.add('hidden');
