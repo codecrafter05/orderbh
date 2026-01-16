@@ -38,11 +38,9 @@ class RestaurantResource extends Resource
                             ->maxLength(255),
                         TextInput::make('delivery_time_ar')
                             ->label('وقت التوصيل (عربي)')
-                            ->required()
                             ->maxLength(255),
                         TextInput::make('working_hours_ar')
                             ->label('ساعات العمل (عربي)')
-                            ->required()
                             ->maxLength(255),
                     ]),
                 Section::make('English Data')
@@ -58,11 +56,9 @@ class RestaurantResource extends Resource
                             ->maxLength(255),
                         TextInput::make('delivery_time_en')
                             ->label('Delivery Time (EN)')
-                            ->required()
                             ->maxLength(255),
                         TextInput::make('working_hours_en')
                             ->label('Working Hours (EN)')
-                            ->required()
                             ->maxLength(255),
                     ]),
                 FileUpload::make('image_path')

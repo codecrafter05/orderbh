@@ -19,7 +19,9 @@
             if ($seoRestaurant->dishes->count() > 0) {
                 $descriptionParts[] = 'متوفر ' . $seoRestaurant->dishes->count() . ' طبق للطلب';
             }
-            $descriptionParts[] = 'وقت التوصيل: ' . $seoRestaurant->delivery_time_ar;
+            if (!empty($seoRestaurant->delivery_time_ar)) {
+                $descriptionParts[] = 'وقت التوصيل: ' . $seoRestaurant->delivery_time_ar;
+            }
             $restaurantDescription = implode('. ', $descriptionParts);
         }
     } else {
@@ -181,6 +183,24 @@
                     <div class="detail-line hidden" data-lang="en">Bahrain</div>
                     <div class="detail-line" data-lang="ar">المطبخ - {{ $restaurant->type_ar }}</div>
                     <div class="detail-line hidden" data-lang="en">Cuisine - {{ $restaurant->type_en }}</div>
+                    @php
+                        $deliveryTimeAr = trim($restaurant->delivery_time_ar ?? '');
+                        $deliveryTimeEn = trim($restaurant->delivery_time_en ?? '');
+                        $workingHoursAr = trim($restaurant->working_hours_ar ?? '');
+                        $workingHoursEn = trim($restaurant->working_hours_en ?? '');
+                        
+                        $hasDeliveryTime = strlen($deliveryTimeAr) > 0 || strlen($deliveryTimeEn) > 0;
+                        $hasWorkingHours = strlen($workingHoursAr) > 0 || strlen($workingHoursEn) > 0;
+                    @endphp
+                    @if($hasDeliveryTime)
+                    <div class="detail-line" data-lang="ar">
+                        <span>وقت التوصيل: {{ $restaurant->delivery_time_ar }}</span>
+                    </div>
+                    <div class="detail-line hidden" data-lang="en">
+                        <span>Delivery Time: {{ $restaurant->delivery_time_en }}</span>
+                    </div>
+                    @endif
+                    @if($hasWorkingHours)
                     <div class="detail-line">
                         <span class="open-status" data-lang="ar">مفتوح الآن</span>
                         <span class="open-status hidden" data-lang="en">Open Now</span>
@@ -189,6 +209,7 @@
                             (<span data-lang="ar">اليوم</span><span data-lang="en" class="hidden">Today</span>)
                         </span>
                     </div>
+                    @endif
                 </div>
             </div>
 

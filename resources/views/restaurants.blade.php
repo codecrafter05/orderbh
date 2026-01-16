@@ -29,6 +29,16 @@
                     <div class="restaurant-category" data-lang="ar">{{ $restaurant->type_ar }}</div>
                     <div class="restaurant-category hidden" data-lang="en">{{ $restaurant->type_en }}</div>
                     <div class="restaurant-details">
+                        @php
+                            $deliveryTimeAr = trim($restaurant->delivery_time_ar ?? '');
+                            $deliveryTimeEn = trim($restaurant->delivery_time_en ?? '');
+                            $workingHoursAr = trim($restaurant->working_hours_ar ?? '');
+                            $workingHoursEn = trim($restaurant->working_hours_en ?? '');
+                            
+                            $hasDeliveryTime = strlen($deliveryTimeAr) > 0 || strlen($deliveryTimeEn) > 0;
+                            $hasWorkingHours = strlen($workingHoursAr) > 0 || strlen($workingHoursEn) > 0;
+                        @endphp
+                        @if($hasDeliveryTime)
                         <div class="detail-item" data-lang="ar">
                             <i class="fa fa-clock-o"></i>
                             <span>وقت التوصيل: {{ $restaurant->delivery_time_ar }}</span>
@@ -37,6 +47,8 @@
                             <i class="fa fa-clock-o"></i>
                             <span>Delivery Time: {{ $restaurant->delivery_time_en }}</span>
                         </div>
+                        @endif
+                        @if($hasWorkingHours)
                         <div class="detail-item" data-lang="ar">
                             <i class="fa fa-clock-o"></i>
                             <span>ساعات العمل: {{ $restaurant->working_hours_ar }}</span>
@@ -45,6 +57,7 @@
                             <i class="fa fa-clock-o"></i>
                             <span>Working Hours: {{ $restaurant->working_hours_en }}</span>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
