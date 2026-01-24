@@ -6,6 +6,71 @@
     <title>السلة - Cart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/cart.css') }}">
+    <style>
+        .delivery-info-section, .payment-method-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .delivery-info-section h3, .payment-method-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+        
+        .address-input {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .payment-option:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .payment-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4CAF50;
+        }
+    </style>
 </head>
 <body>
     <!-- Top Bar -->
@@ -52,6 +117,57 @@
                     class="notes-textarea"
                 ></textarea>
             </div>
+
+            <!-- Delivery Information Section -->
+            <div class="delivery-info-section">
+                <h3 lang="ar">معلومات التوصيل</h3>
+                <h3 lang="en" class="hidden">Delivery Information</h3>
+                
+                <div class="form-group">
+                    <label lang="ar">الاسم *</label>
+                    <label lang="en" class="hidden">Name *</label>
+                    <input type="text" id="customerName" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label lang="ar">رقم الهاتف *</label>
+                    <label lang="en" class="hidden">Phone Number *</label>
+                    <input type="tel" id="customerPhone" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label lang="ar">العنوان *</label>
+                    <label lang="en" class="hidden">Address *</label>
+                    <textarea id="customerAddress" class="form-input address-input" required></textarea>
+                </div>
+            </div>
+
+            <!-- Payment Method Section -->
+            <div class="payment-method-section">
+                <h3 lang="ar">وسيلة الدفع</h3>
+                <h3 lang="en" class="hidden">Payment Method</h3>
+                
+                <div class="payment-options">
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMethod" value="benefit" checked>
+                        <span lang="ar">بنفت</span>
+                        <span lang="en" class="hidden">Benefit</span>
+                    </label>
+                    
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMethod" value="card_on_delivery">
+                        <span lang="ar">بطاقة عند الاستلام</span>
+                        <span lang="en" class="hidden">Card on Delivery</span>
+                    </label>
+                    
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMethod" value="cash_on_delivery">
+                        <span lang="ar">كاش عند الاستلام</span>
+                        <span lang="en" class="hidden">Cash on Delivery</span>
+                    </label>
+                </div>
+            </div>
+
             <div class="summary-total">
                 <span lang="ar">المجموع:</span>
                 <span lang="en" class="hidden">Total:</span>
@@ -105,6 +221,15 @@
                     ? 'أضف ملاحظات خاصة للطلب...' 
                     : 'Add special notes for your order...';
             }
+            
+            // Update placeholders for delivery info
+            const nameInput = document.getElementById('customerName');
+            const phoneInput = document.getElementById('customerPhone');
+            const addressInput = document.getElementById('customerAddress');
+            
+            if (nameInput) nameInput.placeholder = lang === 'ar' ? 'أدخل اسمك' : 'Enter your name';
+            if (phoneInput) phoneInput.placeholder = lang === 'ar' ? 'أدخل رقم هاتفك' : 'Enter your phone number';
+            if (addressInput) addressInput.placeholder = lang === 'ar' ? 'أدخل عنوان التوصيل بالتفصيل' : 'Enter detailed delivery address';
 
             renderCart();
         }
@@ -214,6 +339,33 @@
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             const notes = document.getElementById('orderNotes').value.trim();
             
+            // Get Customer Info
+            const name = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            const address = document.getElementById('customerAddress').value.trim();
+            
+            // Get Payment Method
+            const paymentMethodEl = document.querySelector('input[name="paymentMethod"]:checked');
+            const paymentMethodValue = paymentMethodEl ? paymentMethodEl.value : 'benefit';
+            
+            let paymentMethodAr = '';
+            let paymentMethodEn = '';
+            
+            switch(paymentMethodValue) {
+                case 'benefit':
+                    paymentMethodAr = 'بنفت';
+                    paymentMethodEn = 'Benefit';
+                    break;
+                case 'card_on_delivery':
+                    paymentMethodAr = 'بطاقة عند الاستلام';
+                    paymentMethodEn = 'Card on Delivery';
+                    break;
+                case 'cash_on_delivery':
+                    paymentMethodAr = 'كاش عند الاستلام';
+                    paymentMethodEn = 'Cash on Delivery';
+                    break;
+            }
+            
             // Group items by restaurant
             const itemsByRestaurant = {};
             cart.forEach(item => {
@@ -235,6 +387,14 @@
             
             if (currentLanguage === 'ar') {
                 message += '*طلب جديد*\n';
+                message += '═══════════════════\n\n';
+                
+                // Customer Info
+                message += '*معلومات العميل:*\n';
+                message += `الاسم: ${name}\n`;
+                message += `رقم الهاتف: ${phone}\n`;
+                message += `العنوان: ${address}\n`;
+                message += `وسيلة الدفع: ${paymentMethodAr}\n\n`;
                 message += '═══════════════════\n\n';
                 
                 // Group by restaurant
@@ -274,6 +434,14 @@
                 message += 'شكراً لطلبك! 🙏';
             } else {
                 message += '*New Order*\n';
+                message += '═══════════════════\n\n';
+                
+                // Customer Info
+                message += '*Customer Information:*\n';
+                message += `Name: ${name}\n`;
+                message += `Phone: ${phone}\n`;
+                message += `Address: ${address}\n`;
+                message += `Payment Method: ${paymentMethodEn}\n\n`;
                 message += '═══════════════════\n\n';
                 
                 // Group by restaurant
@@ -322,9 +490,21 @@
                 alert(currentLanguage === 'ar' ? 'السلة فارغة' : 'Cart is empty');
                 return;
             }
+            
+            // Validate Customer Info
+            const name = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            const address = document.getElementById('customerAddress').value.trim();
+            
+            if (!name || !phone || !address) {
+                alert(currentLanguage === 'ar' 
+                    ? 'الرجاء ملء جميع معلومات التوصيل المطلوبة (الاسم، الهاتف، العنوان)' 
+                    : 'Please fill in all required delivery information (Name, Phone, Address)');
+                return;
+            }
 
             const orderMessage = formatOrderMessage();
-            const phoneNumber = '0097337331306';
+            const phoneNumber = '+97338131338';
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(orderMessage)}`;
             
             // Open WhatsApp

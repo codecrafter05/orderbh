@@ -13,250 +13,204 @@ class ZohoorSeeder extends Seeder
      */
     public function run(): void
     {
+        // حذف البيانات القديمة إن وجدت (حذف الأطباق أولاً بسبب foreign key)
+        ZohoorDish::query()->delete();
+        Category::query()->delete();
+
         // إنشاء الفئات (Categories)
         $category1 = Category::create([
             'order' => 1,
-            'name_ar' => 'المشروبات الساخنة',
-            'name_en' => 'Hot Beverages',
+            'name_ar' => 'المقبلات الباردة والساخنة',
+            'name_en' => 'Cold & Hot Appetizers',
             'image_path' => null,
         ]);
 
         $category2 = Category::create([
             'order' => 2,
-            'name_ar' => 'المشروبات الباردة',
-            'name_en' => 'Cold Beverages',
+            'name_ar' => 'المشاوي',
+            'name_en' => 'Grilled Dishes',
             'image_path' => null,
         ]);
 
         $category3 = Category::create([
             'order' => 3,
-            'name_ar' => 'الحلويات',
-            'name_en' => 'Desserts',
+            'name_ar' => 'الصواني والقلايات',
+            'name_en' => 'Trays & Pans',
             'image_path' => null,
         ]);
 
         $category4 = Category::create([
             'order' => 4,
-            'name_ar' => 'الأطباق الرئيسية',
-            'name_en' => 'Main Dishes',
+            'name_ar' => 'المطبخ العربي',
+            'name_en' => 'Arabic Cuisine',
             'image_path' => null,
         ]);
 
         $category5 = Category::create([
             'order' => 5,
-            'name_ar' => 'المقبلات',
-            'name_en' => 'Appetizers',
+            'name_ar' => 'مشروبات',
+            'name_en' => 'Drinks',
             'image_path' => null,
         ]);
 
-        // إنشاء أطباق زهور - المشروبات الساخنة
-        ZohoorDish::create([
-            'category_id' => $category1->id,
-            'order' => 1,
-            'name_ar' => 'شاي الأعشاب',
-            'name_en' => 'Herbal Tea',
-            'description_ar' => 'شاي طبيعي من الأعشاب الطبية المختارة',
-            'description_en' => 'Natural tea from selected medicinal herbs',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => 'كوب صغير', 'size_en' => 'Small Cup', 'price' => 1.500],
-                ['size_ar' => 'كوب كبير', 'size_en' => 'Large Cup', 'price' => 2.500],
-            ],
-        ]);
+        // إنشاء أطباق زهور - المقبلات الباردة والساخنة (Category 1)
+        $dishesCategory1 = [
+            ['name_ar' => 'سلطة تركية', 'name_en' => 'Turkish salad', 'description_ar' => '', 'description_en' => '', 'price' => 2.500],
+            ['name_ar' => 'سلطة جرجير', 'name_en' => 'Rocca salad', 'description_ar' => '', 'description_en' => '', 'price' => 2.500],
+            ['name_ar' => 'ورق عنب', 'name_en' => 'Vine Leaves', 'description_ar' => '', 'description_en' => '', 'price' => 2.500],
+            ['name_ar' => 'سلطة عربية', 'name_en' => 'Arabic salad', 'description_ar' => '', 'description_en' => '', 'price' => 2.500],
+            ['name_ar' => 'ثومية', 'name_en' => 'Garlic Sauce', 'description_ar' => '', 'description_en' => '', 'price' => 1.500],
+            ['name_ar' => 'تبولة', 'name_en' => 'Tabbouleh', 'description_ar' => '', 'description_en' => '', 'price' => 2.500],
+            ['name_ar' => 'متبل شمندر', 'name_en' => 'Beetroot Moutabbal', 'description_ar' => '', 'description_en' => '', 'price' => 2.500],
+            ['name_ar' => 'بابا غنوج', 'name_en' => 'Baba Ghanoush', 'description_ar' => '', 'description_en' => '', 'price' => 2.500],
+            ['name_ar' => 'باذنجان', 'name_en' => 'Eggplant', 'description_ar' => '', 'description_en' => '', 'price' => 2.500],
+            ['name_ar' => 'متبل', 'name_en' => 'Mtabbal', 'description_ar' => '', 'description_en' => '', 'price' => 2.500],
+            ['name_ar' => 'حمص', 'name_en' => 'Hummus', 'description_ar' => '', 'description_en' => '', 'price' => 2.500],
+            ['name_ar' => 'مقبلات مشكلة', 'name_en' => 'Assorted Appetizer', 'description_ar' => '', 'description_en' => '', 'price' => 5.800],
+            ['name_ar' => 'سلطة فتوش', 'name_en' => 'Fattoush Salad', 'description_ar' => '', 'description_en' => '', 'price' => 2.500],
+            ['name_ar' => 'سلطة زيتون', 'name_en' => 'Olive Salad', 'description_ar' => '', 'description_en' => '', 'price' => 2.500],
+            ['name_ar' => 'حمص باللحم', 'name_en' => 'Hummus with meat', 'description_ar' => '', 'description_en' => '', 'price' => 3.800],
+            ['name_ar' => 'بطاطس مقلية', 'name_en' => 'French Fries', 'description_ar' => '', 'description_en' => '', 'price' => 1.800],
+            ['name_ar' => 'برك جبنة', 'name_en' => 'Cheese Baraak', 'description_ar' => '', 'description_en' => '', 'price' => 2.850],
+            ['name_ar' => 'كبة مقلية', 'name_en' => 'Fried Kibbeا', 'description_ar' => '', 'description_en' => '', 'price' => 2.950],
+        ];
 
-        ZohoorDish::create([
-            'category_id' => $category1->id,
-            'order' => 2,
-            'name_ar' => 'قهوة عربية',
-            'name_en' => 'Arabic Coffee',
-            'description_ar' => 'قهوة عربية أصيلة مع الهيل',
-            'description_en' => 'Authentic Arabic coffee with cardamom',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => '', 'size_en' => '', 'price' => 2.000],
-            ],
-        ]);
+        foreach ($dishesCategory1 as $index => $dish) {
+            ZohoorDish::create([
+                'category_id' => $category1->id,
+                'order' => $index + 1,
+                'name_ar' => $dish['name_ar'],
+                'name_en' => $dish['name_en'],
+                'description_ar' => $dish['description_ar'] ?: null,
+                'description_en' => $dish['description_en'] ?: null,
+                'image_path' => null,
+                'prices' => [
+                    ['size_ar' => '', 'size_en' => '', 'price' => (float)$dish['price']],
+                ],
+            ]);
+        }
 
-        ZohoorDish::create([
-            'category_id' => $category1->id,
-            'order' => 3,
-            'name_ar' => 'شاي الزعتر',
-            'name_en' => 'Thyme Tea',
-            'description_ar' => 'شاي الزعتر الطبيعي المهدئ',
-            'description_en' => 'Natural soothing thyme tea',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => '', 'size_en' => '', 'price' => 1.750],
-            ],
-        ]);
+        // إنشاء أطباق زهور - المشاوي (Category 2)
+        $dishesCategory2 = [
+            ['name_ar' => 'دجاج مسحب', 'name_en' => 'Pulled Chicken', 'description_ar' => '', 'description_en' => '', 'price' => 4.400],
+            ['name_ar' => 'صحن مشاوي مشكل', 'name_en' => 'Mix Grill Platter', 'description_ar' => '', 'description_en' => '', 'price' => 6.500],
+            ['name_ar' => 'صحن كباب لحم', 'name_en' => 'Meat Kebab Platter', 'description_ar' => '', 'description_en' => '', 'price' => 6.900],
+            ['name_ar' => 'صحن ريش غنم', 'name_en' => 'LAMP Chops Platter', 'description_ar' => '', 'description_en' => '', 'price' => 7.800],
+            ['name_ar' => 'صحن تكة لحم', 'name_en' => 'Meat Tikka Platter', 'description_ar' => '', 'description_en' => '', 'price' => 7.800],
+            ['name_ar' => 'صحن شيش طاووق', 'name_en' => 'Chicken Shish Platter', 'description_ar' => '', 'description_en' => '', 'price' => 4.900],
+            ['name_ar' => 'صحن كباب دجاج', 'name_en' => 'Chicken Kebab Platter', 'description_ar' => '', 'description_en' => '', 'price' => 4.900],
+            ['name_ar' => 'دجاج مسحب', 'name_en' => 'Pulled Chicken', 'description_ar' => '', 'description_en' => '', 'price' => 4.900],
+            ['name_ar' => 'كبدة مشوية', 'name_en' => 'Liver Grill', 'description_ar' => '', 'description_en' => '', 'price' => 4.900],
+            ['name_ar' => 'كلاوي مشوي', 'name_en' => 'Kidney Grill', 'description_ar' => '', 'description_en' => '', 'price' => 4.900],
+            ['name_ar' => 'بيض غنم', 'name_en' => 'Sheep Testicals', 'description_ar' => '', 'description_en' => '', 'price' => 4.900],
+            ['name_ar' => 'قلب مشوي', 'name_en' => 'Heart Grill', 'description_ar' => '', 'description_en' => '', 'price' => 4.900],
+            ['name_ar' => 'مشكل مشوي', 'name_en' => 'Mixed Grilled', 'description_ar' => 'كبدة - كلاوي - بيض غنم', 'description_en' => 'Kidney - sheep Testicals - Liver', 'price' => 4.900],
+            ['name_ar' => 'نص كيلو مشاوي مشكل', 'name_en' => '1/2 Mixed Grills', 'description_ar' => '', 'description_en' => '', 'price' => 11.800],
+            ['name_ar' => 'كيلو مشاوي مشكل', 'name_en' => '1 K Mixed Grill', 'description_ar' => '', 'description_en' => '', 'price' => 19.500],
+        ];
 
-        // إنشاء أطباق زهور - المشروبات الباردة
-        ZohoorDish::create([
-            'category_id' => $category2->id,
-            'order' => 1,
-            'name_ar' => 'عصير الليمون بالنعناع',
-            'name_en' => 'Lemon Mint Juice',
-            'description_ar' => 'عصير ليمون طازج مع النعناع',
-            'description_en' => 'Fresh lemon juice with mint',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => 'كوب صغير', 'size_en' => 'Small Cup', 'price' => 2.000],
-                ['size_ar' => 'كوب كبير', 'size_en' => 'Large Cup', 'price' => 3.500],
-            ],
-        ]);
+        foreach ($dishesCategory2 as $index => $dish) {
+            ZohoorDish::create([
+                'category_id' => $category2->id,
+                'order' => $index + 1,
+                'name_ar' => $dish['name_ar'],
+                'name_en' => $dish['name_en'],
+                'description_ar' => $dish['description_ar'] ?: null,
+                'description_en' => $dish['description_en'] ?: null,
+                'image_path' => null,
+                'prices' => [
+                    ['size_ar' => '', 'size_en' => '', 'price' => (float)$dish['price']],
+                ],
+            ]);
+        }
 
-        ZohoorDish::create([
-            'category_id' => $category2->id,
-            'order' => 2,
-            'name_ar' => 'عصير البرتقال الطازج',
-            'name_en' => 'Fresh Orange Juice',
-            'description_ar' => 'عصير برتقال طازج 100%',
-            'description_en' => '100% fresh orange juice',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => '', 'size_en' => '', 'price' => 2.500],
-            ],
-        ]);
+        // إنشاء أطباق زهور - الصواني والقلايات (Category 3)
+        $dishesCategory3 = [
+            ['name_ar' => 'عرايس', 'name_en' => 'Arayes', 'description_ar' => '', 'description_en' => '', 'price' => 2.750],
+            ['name_ar' => 'نخعات', 'name_en' => 'Brain', 'description_ar' => '', 'description_en' => '', 'price' => 4.400],
+            ['name_ar' => 'بيض غنم', 'name_en' => 'Sheep Testicle', 'description_ar' => '', 'description_en' => '', 'price' => 4.900],
+            ['name_ar' => 'كلاوي', 'name_en' => 'Kidney', 'description_ar' => '', 'description_en' => '', 'price' => 4.900],
+            ['name_ar' => 'قلب', 'name_en' => 'Heart', 'description_ar' => '', 'description_en' => '', 'price' => 4.900],
+            ['name_ar' => 'كبدة', 'name_en' => 'Liver', 'description_ar' => '', 'description_en' => '', 'price' => 4.900],
+            ['name_ar' => 'قلايه لحمه بالبصل ٢٥٠ جرام', 'name_en' => 'Meat With Onion 250GM', 'description_ar' => '', 'description_en' => '', 'price' => 5.900],
+            ['name_ar' => 'قلايه لحمه بالطماطم ٢٥٠ جرام', 'name_en' => 'Meat With tomato 250GM', 'description_ar' => '', 'description_en' => '', 'price' => 5.900],
+            ['name_ar' => 'كفتة بالطماطم', 'name_en' => 'Kofta With Tomatoes', 'description_ar' => '', 'description_en' => '', 'price' => 6.050],
+            ['name_ar' => 'كفتة بالطحينة', 'name_en' => 'Kofta With Tahini', 'description_ar' => '', 'description_en' => '', 'price' => 6.050],
+        ];
 
-        ZohoorDish::create([
-            'category_id' => $category2->id,
-            'order' => 3,
-            'name_ar' => 'مشروب الورد',
-            'name_en' => 'Rose Drink',
-            'description_ar' => 'مشروب الورد الطبيعي المنعش',
-            'description_en' => 'Natural refreshing rose drink',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => '', 'size_en' => '', 'price' => 3.000],
-            ],
-        ]);
+        foreach ($dishesCategory3 as $index => $dish) {
+            ZohoorDish::create([
+                'category_id' => $category3->id,
+                'order' => $index + 1,
+                'name_ar' => $dish['name_ar'],
+                'name_en' => $dish['name_en'],
+                'description_ar' => $dish['description_ar'] ?: null,
+                'description_en' => $dish['description_en'] ?: null,
+                'image_path' => null,
+                'prices' => [
+                    ['size_ar' => '', 'size_en' => '', 'price' => (float)$dish['price']],
+                ],
+            ]);
+        }
 
-        // إنشاء أطباق زهور - الحلويات
-        ZohoorDish::create([
-            'category_id' => $category3->id,
-            'order' => 1,
-            'name_ar' => 'كنافة نابلسية',
-            'name_en' => 'Nabulsi Knafeh',
-            'description_ar' => 'كنافة نابلسية تقليدية مع الجبن',
-            'description_en' => 'Traditional Nabulsi knafeh with cheese',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => 'قطعة صغيرة', 'size_en' => 'Small Piece', 'price' => 2.500],
-                ['size_ar' => 'قطعة كبيرة', 'size_en' => 'Large Piece', 'price' => 4.500],
-            ],
-        ]);
+        // إنشاء أطباق زهور - المطبخ العربي (Category 4)
+        $dishesCategory4 = [
+            ['name_ar' => 'ضلع غوزي', 'name_en' => 'Gozi RIB', 'description_ar' => '', 'description_en' => '', 'price' => 15.900],
+            ['name_ar' => 'رقبة غوزي', 'name_en' => 'Gozi Neck', 'description_ar' => '', 'description_en' => '', 'price' => 13.950],
+            ['name_ar' => 'منسف لحم شخص واحد', 'name_en' => '1 Per Mansaf Meat', 'description_ar' => '', 'description_en' => '', 'price' => 7.900],
+            ['name_ar' => '١ كيلو منسف لحم', 'name_en' => '1 kg Of Mansaf Meat', 'description_ar' => '', 'description_en' => '', 'price' => 22.800],
+        ];
 
-        ZohoorDish::create([
-            'category_id' => $category3->id,
-            'order' => 2,
-            'name_ar' => 'بقلاوة',
-            'name_en' => 'Baklava',
-            'description_ar' => 'بقلاوة محشوة بالفستق',
-            'description_en' => 'Baklava stuffed with pistachios',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => '', 'size_en' => '', 'price' => 3.000],
-            ],
-        ]);
+        foreach ($dishesCategory4 as $index => $dish) {
+            ZohoorDish::create([
+                'category_id' => $category4->id,
+                'order' => $index + 1,
+                'name_ar' => $dish['name_ar'],
+                'name_en' => $dish['name_en'],
+                'description_ar' => $dish['description_ar'] ?: null,
+                'description_en' => $dish['description_en'] ?: null,
+                'image_path' => null,
+                'prices' => [
+                    ['size_ar' => '', 'size_en' => '', 'price' => (float)$dish['price']],
+                ],
+            ]);
+        }
 
-        ZohoorDish::create([
-            'category_id' => $category3->id,
-            'order' => 3,
-            'name_ar' => 'حلاوة طحينية',
-            'name_en' => 'Halva',
-            'description_ar' => 'حلاوة طحينية طبيعية',
-            'description_en' => 'Natural halva',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => '100 جرام', 'size_en' => '100g', 'price' => 2.000],
-                ['size_ar' => '250 جرام', 'size_en' => '250g', 'price' => 4.500],
-            ],
-        ]);
+        // إنشاء أطباق زهور - المشروبات (Category 5)
+        $dishesCategory5 = [
+            ['name_ar' => 'فانتا فراولة', 'name_en' => 'Fanta Strawberry', 'description_ar' => '', 'description_en' => '', 'price' => 0.880],
+            ['name_ar' => 'سبرايت', 'name_en' => 'Sprite', 'description_ar' => '', 'description_en' => '', 'price' => 0.880],
+            ['name_ar' => 'كينزا كولا', 'name_en' => 'Kinza Cola', 'description_ar' => '', 'description_en' => '', 'price' => 0.880],
+            ['name_ar' => 'كينزا ليمون', 'name_en' => 'Kinza Lemon', 'description_ar' => '', 'description_en' => '', 'price' => 0.880],
+            ['name_ar' => 'كينزا برتقال', 'name_en' => 'Kinza Orange', 'description_ar' => '', 'description_en' => '', 'price' => 0.880],
+            ['name_ar' => 'كينزا دايت كولا', 'name_en' => 'Kinza Diet Cola', 'description_ar' => '', 'description_en' => '', 'price' => 0.880],
+            ['name_ar' => 'كوكاكولا لايت', 'name_en' => 'Coca-Cola Light', 'description_ar' => '', 'description_en' => '', 'price' => 0.880],
+            ['name_ar' => 'كوكاكولا زيرو', 'name_en' => 'Coca-Cola Zero', 'description_ar' => '', 'description_en' => '', 'price' => 0.880],
+            ['name_ar' => 'سبرايت زيرو', 'name_en' => 'Sprite Zero', 'description_ar' => '', 'description_en' => '', 'price' => 0.880],
+            ['name_ar' => 'عصير برتقال طبيعي', 'name_en' => 'Fresh Orange Juice', 'description_ar' => '', 'description_en' => '', 'price' => 2.200],
+            ['name_ar' => 'عصير ليمون بالنعناع', 'name_en' => 'Lemon Mint Juice', 'description_ar' => '', 'description_en' => '', 'price' => 2.200],
+            ['name_ar' => 'لبن', 'name_en' => 'Laban', 'description_ar' => '', 'description_en' => '', 'price' => 1.650],
+            ['name_ar' => 'ماء 350 مل', 'name_en' => 'Water 350ml', 'description_ar' => '', 'description_en' => '', 'price' => 1.320],
+            ['name_ar' => 'ماء ٧٥٠ مل', 'name_en' => 'Water 750ml', 'description_ar' => '', 'description_en' => '', 'price' => 1.870],
+            ['name_ar' => 'مياه غازية', 'name_en' => 'Sparkling water', 'description_ar' => '', 'description_en' => '', 'price' => 1.200],
+        ];
 
-        // إنشاء أطباق زهور - الأطباق الرئيسية
-        ZohoorDish::create([
-            'category_id' => $category4->id,
-            'order' => 1,
-            'name_ar' => 'منسف',
-            'name_en' => 'Mansaf',
-            'description_ar' => 'منسف لحم مع الأرز واللبن',
-            'description_en' => 'Mansaf with meat, rice and yogurt',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => 'وجبة فردية', 'size_en' => 'Single Serving', 'price' => 8.500],
-                ['size_ar' => 'وجبة عائلية', 'size_en' => 'Family Serving', 'price' => 25.000],
-            ],
-        ]);
+        foreach ($dishesCategory5 as $index => $dish) {
+            ZohoorDish::create([
+                'category_id' => $category5->id,
+                'order' => $index + 1,
+                'name_ar' => $dish['name_ar'],
+                'name_en' => $dish['name_en'],
+                'description_ar' => $dish['description_ar'] ?: null,
+                'description_en' => $dish['description_en'] ?: null,
+                'image_path' => null,
+                'prices' => [
+                    ['size_ar' => '', 'size_en' => '', 'price' => (float)$dish['price']],
+                ],
+            ]);
+        }
 
-        ZohoorDish::create([
-            'category_id' => $category4->id,
-            'order' => 2,
-            'name_ar' => 'مقلوبة',
-            'name_en' => 'Maqluba',
-            'description_ar' => 'مقلوبة دجاج مع الأرز والخضار',
-            'description_en' => 'Maqluba with chicken, rice and vegetables',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => '', 'size_en' => '', 'price' => 7.500],
-            ],
-        ]);
-
-        ZohoorDish::create([
-            'category_id' => $category4->id,
-            'order' => 3,
-            'name_ar' => 'كبسة',
-            'name_en' => 'Kabsa',
-            'description_ar' => 'كبسة لحم مع الأرز المتبل',
-            'description_en' => 'Kabsa with meat and spiced rice',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => 'وجبة فردية', 'size_en' => 'Single Serving', 'price' => 9.000],
-                ['size_ar' => 'وجبة عائلية', 'size_en' => 'Family Serving', 'price' => 28.000],
-            ],
-        ]);
-
-        // إنشاء أطباق زهور - المقبلات
-        ZohoorDish::create([
-            'category_id' => $category5->id,
-            'order' => 1,
-            'name_ar' => 'حمص',
-            'name_en' => 'Hummus',
-            'description_ar' => 'حمص طازج مع زيت الزيتون',
-            'description_en' => 'Fresh hummus with olive oil',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => '', 'size_en' => '', 'price' => 2.500],
-            ],
-        ]);
-
-        ZohoorDish::create([
-            'category_id' => $category5->id,
-            'order' => 2,
-            'name_ar' => 'متبل',
-            'name_en' => 'Mutabal',
-            'description_ar' => 'متبل الباذنجان المشوي',
-            'description_en' => 'Roasted eggplant mutabal',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => '', 'size_en' => '', 'price' => 2.750],
-            ],
-        ]);
-
-        ZohoorDish::create([
-            'category_id' => $category5->id,
-            'order' => 3,
-            'name_ar' => 'فتوش',
-            'name_en' => 'Fattoush',
-            'description_ar' => 'سلطة فتوش مع الخبز المحمص',
-            'description_en' => 'Fattoush salad with toasted bread',
-            'image_path' => null,
-            'prices' => [
-                ['size_ar' => 'طبق صغير', 'size_en' => 'Small Plate', 'price' => 3.500],
-                ['size_ar' => 'طبق كبير', 'size_en' => 'Large Plate', 'price' => 6.000],
-            ],
-        ]);
-
-        $this->command->info('تم إنشاء البيانات التجريبية بنجاح!');
+        $this->command->info('تم إنشاء البيانات بنجاح!');
         $this->command->info('تم إنشاء ' . Category::count() . ' فئة');
         $this->command->info('تم إنشاء ' . ZohoorDish::count() . ' طبق');
     }
