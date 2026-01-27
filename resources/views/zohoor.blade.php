@@ -36,7 +36,7 @@
     <div class="categories-section">
         <div class="categories-scroll" id="categoriesScroll">
             <div class="category-item active" data-category="all" data-title-ar="قائمة الطعام" data-title-en="Menu" onclick="filterCategory('all')">
-                <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=300&fit=crop" alt="الكل" class="category-image">
+                <img src="{{ asset('assets/imag/all.jpeg') }}" alt="الكل" class="category-image">
                 <div class="category-name">
                     <span lang="ar">الكل</span>
                     <span lang="en" class="hidden">All</span>
