@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>زهور الشفاء - Zohoor Al Shafa</title>
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <script>
+        (function () {
+            var lang = localStorage.getItem('language') || 'ar';
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        })();
+    </script>
 </head>
 <body>
     <!-- Header -->
@@ -156,7 +163,7 @@
     </div>
 
     <script>
-        let currentLanguage = 'ar';
+        let currentLanguage = localStorage.getItem('language') || 'ar';
         let currentCategory = 'all';
         let currentView = 'list';
         let cart = [];
@@ -448,8 +455,7 @@
 
         // Initialize
         loadCart();
-        const savedLang = localStorage.getItem('language') || 'ar';
-        setLanguage(savedLang);
+        setLanguage(currentLanguage);
         updateCategoriesActive();
         filterMenu();
         setView('list');

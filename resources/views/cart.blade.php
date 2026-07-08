@@ -6,6 +6,13 @@
     <title>السلة - Cart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/cart.css') }}">
+    <script>
+        (function () {
+            var lang = localStorage.getItem('language') || 'ar';
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        })();
+    </script>
     <style>
         .delivery-info-section, .payment-method-section {
             margin-top: 20px;
@@ -181,7 +188,7 @@
     </div>
 
     <script>
-        let currentLanguage = 'ar';
+        let currentLanguage = localStorage.getItem('language') || 'ar';
         let cart = [];
 
         // Load cart from localStorage
@@ -524,8 +531,7 @@
 
         // Initialize
         loadCart();
-        const savedLang = localStorage.getItem('language') || 'ar';
-        setLanguage(savedLang);
+        setLanguage(currentLanguage);
     </script>
 </body>
 </html>
